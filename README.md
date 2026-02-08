@@ -2,4 +2,4 @@
 
 ```mermaid
 flowchart LR
-  A["Web Client"] -->|"HTTP<br/>POST /detect (image)"| B["Detection API<br/>FastAPI + YOLOv8"]
+  A["Web Client (Frontend)"] -->|"POST /detect<br/>image payload"| B["Detection API<br/>(FastAPI + YOLOv8)"]
