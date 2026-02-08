@@ -3,6 +3,10 @@
 
 
 ```mermaid
+---
+config:
+  theme: neutral
+---
 flowchart LR
     A("Frontend<br>(Web Client)") -- POST /detect
 image payload --> B("Detection API<br>(FastAPI + YOLOv8)")
