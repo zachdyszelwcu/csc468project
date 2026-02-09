@@ -1,7 +1,7 @@
 # Project Details
 
 
-
+# Visual
 ```mermaid
 ---
 config:
