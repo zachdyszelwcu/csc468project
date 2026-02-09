@@ -1,4 +1,4 @@
-# csc468project
+# Project Details
 
 
 
