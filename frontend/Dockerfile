@@ -6,8 +6,7 @@ COPY package.json .
 
 RUN npm install
 
-COPY .. /apps
-
+COPY . .
 
 EXPOSE 3000
 
