@@ -46,7 +46,7 @@ if (settingsBtn) {
         const img = document.getElementById("cameraFeed");
 
 
-        img.src = "http://127.0.0.1:5000/video?" + new Date().getTime();
+        img.src = "http://flask:5000/video?" + new Date().getTime();
     });
 }
 
@@ -57,7 +57,7 @@ async function runDetection() {
     resultsDiv.innerHTML = "Running detection...";
 
     try {
-        const response = await fetch("http://127.0.0.1:5000/detect");
+        const response = await fetch("http://flask:5000/detect");
         const data = await response.json();
 
         console.log(data);

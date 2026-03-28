@@ -1,8 +1,15 @@
-FROM node:23.11-slim
+FROM node:18-alpine
 
 WORKDIR /apps
+
+COPY package.json .
+
+RUN npm install
+
 COPY yolo.js /apps
 COPY files/   /apps/files
+copy server.js /apps
 
-CMD ["node", "yolo.js"]
-EXPOSE 80
+EXPOSE 3000
+
+CMD ["node", "server.js"]
