@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
             span.textContent = char === " " ? "\u00A0" : char;
 
             const confidence = (0.78 + Math.random() * (0.99 - 0.78)).toFixed(2);
-
             span.setAttribute("data-label", "Letter " + char + " " + confidence);
 
             title.appendChild(span);
@@ -31,30 +30,33 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const video = document.getElementById("cameraFeed");
+
+    if (video) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                console.error("Camera error:", err);
+            });
+    }
+
     const settingsBtn = document.getElementById("settingsBtn");
     if (settingsBtn) {
         settingsBtn.addEventListener("click", () => {
             runDetection();
         });
     }
+
 });
-
-const settingsBtn = document.getElementById("settingsBtn");
-
-if (settingsBtn) {
-    settingsBtn.addEventListener("click", () => {
-        const img = document.getElementById("cameraFeed");
-
-
-        img.src = "http://flask:5000/video?" + new Date().getTime();
-    });
-}
-
 
 async function runDetection() {
     const resultsDiv = document.getElementById("results");
 
-    resultsDiv.innerHTML = "Running detection...";
+    if (resultsDiv) {
+        resultsDiv.innerHTML = "Running detection...";
+    }
 
     try {
         const response = await fetch("http://flask:5000/detect");
@@ -62,26 +64,30 @@ async function runDetection() {
 
         console.log(data);
 
-        resultsDiv.innerHTML = "";
+        if (resultsDiv) {
+            resultsDiv.innerHTML = "";
 
-        if (data.error) {
-            resultsDiv.textContent = data.error;
-            return;
+            if (data.error) {
+                resultsDiv.textContent = data.error;
+                return;
+            }
+
+            if (data.length === 0) {
+                resultsDiv.textContent = "No objects detected";
+                return;
+            }
+
+            data.forEach(item => {
+                const p = document.createElement("p");
+                p.textContent = `Class: ${item.class} | Confidence: ${item.confidence.toFixed(2)}`;
+                resultsDiv.appendChild(p);
+            });
         }
-
-        if (data.length === 0) {
-            resultsDiv.textContent = "No objects detected";
-            return;
-        }
-
-        data.forEach(item => {
-            const p = document.createElement("p");
-            p.textContent = `Class: ${item.class} | Confidence: ${item.confidence.toFixed(2)}`;
-            resultsDiv.appendChild(p);
-        });
 
     } catch (err) {
-        resultsDiv.textContent = "Error connecting to backend";
+        if (resultsDiv) {
+            resultsDiv.textContent = "Error connecting to backend";
+        }
         console.error(err);
     }
 }
