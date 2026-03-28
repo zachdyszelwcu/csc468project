@@ -86,9 +86,12 @@ button:hover {
     height: auto;
 
     object-fit: contain;
-    box-shadow: 0 0 0 2px #003f00;
 
     margin-bottom: 20px;
+}
+
+#cameraFeed.loaded {
+    box-shadow: 0 0 0 2px #003f00;
 }
 
 .material-symbols-outlined {
