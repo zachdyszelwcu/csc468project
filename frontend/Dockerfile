@@ -6,9 +6,8 @@ COPY package.json .
 
 RUN npm install
 
-COPY yolo.js /apps
-COPY files/   /apps/files
-COPY server.js /apps
+COPY ..
+
 
 EXPOSE 3000
 
