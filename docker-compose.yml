@@ -1,20 +1,14 @@
-package main
+version: '3.8'
 
-import (
-   "log" 
-   "net/http" 
-)
+services:
+  detection-api:
+    build: ./detection-api
+    ports:
+      - "5000:5000"
 
-type Server struct{}
-
-func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-   w.WriteHeader(http.StatusOK)
-   w.Header().Set("Content-Type", "application/json")
-   w.Write([]byte(`{"message": "Hello Rams 2025"}`))
-}
-
-func main() {
-  s := &Server{}
-  http.Handle("/", s)
-  log.Fatal(http.ListenAndServe(":8080", nil))
-}
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - detection-api
