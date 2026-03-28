@@ -81,12 +81,14 @@ button:hover {
 
 #cameraFeed {
     width: 100%;
-    height: 100%;
     max-width: 640px;
-    max-height: 480px;
-    
+
+    height: auto;
+
     object-fit: contain;
     box-shadow: 0 0 0 2px #003f00;
+
+    margin-bottom: 20px;
 }
 
 .material-symbols-outlined {
