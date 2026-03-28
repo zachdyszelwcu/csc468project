@@ -80,11 +80,10 @@ button:hover {
 
 
 #cameraFeed {
-    width:640px;
-    height: 480px;
-    margin-bottom: 20px;
+    width: 800px;
+    height: 600px;
+    object-fit: contain;
     box-shadow: 0 0 0 2px #003f00;
-
 }
 
 .material-symbols-outlined {
