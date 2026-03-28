@@ -16,6 +16,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const cameraFeed = document.getElementById("cameraFeed");
+    if (cameraFeed) {
+        cameraFeed.onload = () => {
+            cameraFeed.classList.add("loaded");
+        };
+    }
+
     const cameraBtn = document.getElementById("cameraBtn");
     if (cameraBtn) {
         cameraBtn.addEventListener("click", () => {
