@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  yolov8:
+    build: yolov8
+    image: 127.0.0.1:30000/yolov8:v0.1
+    ports:
+    - "5000:80"
+
+  frontend:
+    build: frontend
+    image: 127.0.0.1:30000/frontend:v0.1
+    ports:
+    - "8080:80"
+
