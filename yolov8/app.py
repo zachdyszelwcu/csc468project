@@ -22,7 +22,12 @@ def detect():
     np_arr = np.frombuffer(img_bytes, np.uint8)
     img = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
-    results = model(img, conf=0.3)
+    if img is None:
+        return jsonify([])
+
+    img = cv2.resize(img, (640, 480))
+
+    results = model(img, conf=0.15)
 
     detections = []
 
