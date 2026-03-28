@@ -1,35 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const title = document.querySelector(".Title");
-    if (title) {
-        const text = title.textContent;
-        title.innerHTML = "";
-
-        text.split("").forEach(char => {
-            const span = document.createElement("span");
-            span.textContent = char === " " ? "\u00A0" : char;
-
-            const confidence = (0.78 + Math.random() * (0.99 - 0.78)).toFixed(2);
-            span.setAttribute("data-label", "Letter " + char + " " + confidence);
-
-            title.appendChild(span);
-        });
-    }
-
-    const cameraBtn = document.getElementById("cameraBtn");
-    if (cameraBtn) {
-        cameraBtn.addEventListener("click", () => {
-            window.location.href = "camera.html";
-        });
-    }
-
-    const backBtn = document.getElementById("backBtn");
-    if (backBtn) {
-        backBtn.addEventListener("click", () => {
-            window.location.href = "index.html";
-        });
-    }
-
     const video = document.getElementById("cameraFeed");
 
     if (video) {
@@ -42,35 +12,39 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 
-    const settingsBtn = document.getElementById("settingsBtn");
-    if (settingsBtn) {
-        settingsBtn.addEventListener("click", () => {
-            runDetection();
+    const backBtn = document.getElementById("backBtn");
+    if (backBtn) {
+        backBtn.addEventListener("click", () => {
+            window.location.href = "index.html";
         });
     }
 
-});
+    const canvas = document.getElementById("snapshot");
+    const ctx = canvas.getContext("2d");
 
-async function runDetection() {
-    const resultsDiv = document.getElementById("results");
+    async function sendFrame() {
+        if (!video.videoWidth) return;
 
-    if (resultsDiv) {
-        resultsDiv.innerHTML = "Running detection...";
-    }
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
 
-    try {
-        const response = await fetch("http://flask:5000/detect");
-        const data = await response.json();
+        ctx.drawImage(video, 0, 0);
 
-        console.log(data);
+        const imageData = canvas.toDataURL("image/jpeg");
 
-        if (resultsDiv) {
+        try {
+            const response = await fetch("http://localhost:5001/detect", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ image: imageData })
+            });
+
+            const data = await response.json();
+
+            const resultsDiv = document.getElementById("results");
             resultsDiv.innerHTML = "";
-
-            if (data.error) {
-                resultsDiv.textContent = data.error;
-                return;
-            }
 
             if (data.length === 0) {
                 resultsDiv.textContent = "No objects detected";
@@ -82,12 +56,11 @@ async function runDetection() {
                 p.textContent = `Class: ${item.class} | Confidence: ${item.confidence.toFixed(2)}`;
                 resultsDiv.appendChild(p);
             });
-        }
 
-    } catch (err) {
-        if (resultsDiv) {
-            resultsDiv.textContent = "Error connecting to backend";
+        } catch (err) {
+            console.error("Error:", err);
         }
-        console.error(err);
     }
-}
+    
+    setInterval(sendFrame, 500);
+});
