@@ -22,14 +22,14 @@ def detect():
     np_arr = np.frombuffer(img_bytes, np.uint8)
     img = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
 
-    results = model(img)
+    results = model(img, conf=0.3)
 
     detections = []
 
     for r in results:
         for box in r.boxes:
             detections.append({
-                "class": int(box.cls[0]),
+                "class": model.names[int(box.cls[0])],
                 "confidence": float(box.conf[0])
             })
 
