@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const imageData = canvas.toDataURL("image/jpeg");
 
             try {
-                const response = await fetch("http://localhost:5001/detect", {
+                const response = await fetch("http://localhost:5002/detect", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
