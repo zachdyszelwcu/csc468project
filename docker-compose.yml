@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  detection-api:
-    build: ./detection-api
+  yolov8:
+    build: ./yolov8
     ports:
       - "5000:5000"
 
@@ -11,4 +11,4 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - detection-api
+      - yolov8
