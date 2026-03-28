@@ -11,8 +11,7 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app.py /
-COPY yolov8.py /
+COPY . .
 
 EXPOSE 5000
 
