@@ -59,8 +59,42 @@ This starts the Express server that servers the front-end
 
 # Back-end
 ## Dockerfile ([View File](./yolov8/Dockerfile))
+FROM python:3.10-slim
 
+WORKDIR /app
+COPY . .
 
+RUN apt-get update && apt-get install -y \
+    libgl1 \
+    libglib2.0-0
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+CMD ["python", "app.py"]
+
+### FROM python:3.10-slim
+Using a python image
+I chose this because it is needed to support the backend and host the required libraries.
+
+### WORKDIR /app
+Changes the directory to /app inside of the newly created container
+
+### COPY . .
+Copies all files into the container
+
+### RUN apt-get update && apt-get install -y \ libgl1 \ libglib2.0-0
+Updates packages and installs required system libraries
+These are needed for OpenCV and YOLO to run properly
+-y auto says yes to any confirmations
+
+### RUN pip install --no-cache-dir -r requirements.txt
+Installs all Python libraries needed for the backend. 
+--no-cache-dir ensures pip does not store downloaded packages in cache
+-r is requirements and tells pip to install packages from requirements.txt
+
+### CMD ["python", "app.py"]
+Runs the back-end using app.py
+The backend listens on port 5002
 
 
 # Network
