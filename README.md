@@ -96,5 +96,5 @@ The containers do not use IP addresses but instead they communicate using servic
 
 ### Flow of requests
 Browser -> localhost:8081 -> frontend (Node.js)
-frontend -> 'http://flask:5002' -> backend (Flask)
+frontend -> flask:5002 -> backend (Flask)
 backend -> returns processed image -> frontend -> browser
