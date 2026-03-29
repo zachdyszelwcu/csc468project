@@ -85,7 +85,9 @@ The backend listens on port 5002
 
 # Network Docker-compose ([View File](docker-compose.yml))
 The backend (Flask) runs on port 5002
+
 The frontend runs on port 3000 and is exposed to the browser at 8081
+
 The containers communicate using a Docker bridge network
 
 ### depends_on: - flask
