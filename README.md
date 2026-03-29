@@ -32,9 +32,34 @@ Docker will be used for building and running containers during development, and 
 
 # Front-end
 ## Dockerfile ([View File](./frontend/Dockerfile))
+### Line 1
+Using a Node.js image
+I chose this image because it is a lightweight, ready-to-depoly image to host the frontend
+
+### Line 3
+Changes the directory to /apps inside of the newly created container
+
+### Line 5
+Copies package.json into the container
+This contains all of the dependencies needed
+
+### Line 7
+Installs all dependencies listed in package.json
+
+### Line 9
+Copies all files into the container
+
+### Line 11
+Exposes port 3000 (this is where the front-end runs inside the container)
+
+### Line 13
+Runs the Node.js server using server.js
+This starts the Express server that servers the front-end
+
 
 # Back-end
 ## Dockerfile ([View File](./yolov8/Dockerfile))
+
 
 
 
