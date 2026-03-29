@@ -8,13 +8,21 @@ config:
   theme: neutral
 ---
 flowchart LR
-  A("Web Client") -->|"HTTP (REST)<br/>POST /detect<br/>image payload"| B("Detection API<br/>(FastAPI + Uvicorn)")
+  A("Browser<br/>(Client)") -->|"HTTP<br/>localhost:8081"| B("Frontend Container<br/>(Node.js / Express)")
+
+  B -->|"REST API<br/>POST /detect"| C("Backend Container<br/>(Flask + YOLOv8)")
+
+  subgraph Docker Network (Bridge)
+    B
+    C
+  end
 
   style A color:#FFFFFF,fill:#424242,stroke:#C8E6C9
-  style B color:#FFFFFF,fill:#424242,stroke:#FFCDD2
-  linkStyle 0 stroke:#FFFFFF
-
+  style B color:#FFFFFF,fill:#424242,stroke:#BBDEFB
+  style C color:#FFFFFF,fill:#424242,stroke:#FFCDD2
 ```
+
+
 # Proposal
 The web client will be containerized using a Node.js base image (e.g., node:20-alpine) to serve the frontend assets. The detection service will be implemented using FastAPI and containerized with a python base image (e.g., python:3.11-slim) and Uvicorn as the application server. 
 
