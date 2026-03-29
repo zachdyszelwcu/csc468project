@@ -96,6 +96,7 @@ Makes sure that the backend starts before the frontend
 ### Communication
 Docker automatically provides DNS resolution, allowing containers to communicate using service names instead of IP addresses
 
+SO instead of using IP addresses the containers communicate by their service names
 
 ### Flow of requests
 Browser -> localhost:8081 -> frontend (Node.js)
