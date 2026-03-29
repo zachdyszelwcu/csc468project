@@ -1,34 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const title = document.querySelector(".Title");
-    if (title) {
-        const text = title.textContent;
-        title.innerHTML = "";
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const output = document.getElementById("output");
 
-        text.split("").forEach(char => {
-            const span = document.createElement("span");
-            span.textContent = char === " " ? "\u00A0" : char;
-
-            const confidence = (0.78 + Math.random() * (0.99 - 0.78)).toFixed(2);
-            span.setAttribute("data-label", "Letter " + char + " " + confidence);
-
-            title.appendChild(span);
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+            video.srcObject = stream;
         });
+
+    const ctx = canvas.getContext("2d");
+
+    async function processFrame() {
+        if (!video.videoWidth) return;
+
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        ctx.drawImage(video, 0, 0);
+
+        const imageData = canvas.toDataURL("image/jpeg");
+
+        try {
+            const response = await fetch("/detect", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ image: imageData })
+            });
+
+            const data = await response.json();
+
+            if (data.image) {
+                output.src = "data:image/jpeg;base64," + data.image;
+            }
+
+        } catch (err) {
+            console.error(err);
+        }
     }
 
-    const cameraFeed = document.getElementById("cameraFeed");
-    if (cameraFeed) {
-        cameraFeed.onload = () => {
-            cameraFeed.classList.add("loaded");
-        };
-    }
-
-    const cameraBtn = document.getElementById("cameraBtn");
-    if (cameraBtn) {
-        cameraBtn.addEventListener("click", () => {
-            window.location.href = "camera.html";
-        });
-    }
+    video.addEventListener("loadeddata", () => {
+        setInterval(processFrame, 500);
+    });
 
     const backBtn = document.getElementById("backBtn");
     if (backBtn) {
