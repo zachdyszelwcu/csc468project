@@ -59,19 +59,6 @@ This starts the Express server that servers the front-end
 
 # Back-end
 ## Dockerfile ([View File](./yolov8/Dockerfile))
-FROM python:3.10-slim
-
-WORKDIR /app
-COPY . .
-
-RUN apt-get update && apt-get install -y \
-    libgl1 \
-    libglib2.0-0
-
-RUN pip install --no-cache-dir -r requirements.txt
-
-CMD ["python", "app.py"]
-
 ### FROM python:3.10-slim
 Using a python image
 I chose this because it is needed to support the backend and host the required libraries.
