@@ -41,7 +41,7 @@ Changes the directory to /apps inside of the newly created container
 
 ### COPY package.json .
 Copies package.json into the container
-This contains all of the dependencies needed
+This contains all dependencies needed
 
 ### RUN npm install
 Installs all dependencies listed in package.json
@@ -54,13 +54,13 @@ Exposes port 3000 (this is where the frontend runs inside the container)
 
 ### CMD ["node", "server.js"]
 Runs the Node.js server using server.js
-This starts the Express server that servers the frontend
+This starts the Express server that serves the frontend
 
 
 # Backend Dockerfile ([View File](./yolov8/Dockerfile))
 ### FROM python:3.10-slim
 Using a python image
-I chose this because it is needed to support the backend and host the required libraries.
+I chose this because it supports the backend and provides compatibility with the required libraries
 
 ### WORKDIR /app
 Changes the directory to /app inside of the newly created container
@@ -94,9 +94,12 @@ The containers communicate using a Docker bridge network
 Makes sure that the backend starts before the frontend
 
 ### Communication
-The containers do not use IP addresses but instead they communicate using service names
+Docker automatically provides DNS resolution, allowing containers to communicate using service names instead of IP addresses
+
 
 ### Flow of requests
 Browser -> localhost:8081 -> frontend (Node.js)
+
 frontend -> flask:5002 -> backend (Flask)
+
 backend -> returns processed image -> frontend -> browser
