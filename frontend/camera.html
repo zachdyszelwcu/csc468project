@@ -7,11 +7,53 @@
 </head>
 <body>
 
-    <h1></h1>
-    <img id="cameraFeed" src="http://localhost:5002/video" />
+<h1>Live YOLO Detection</h1>
 
-    <button id="backBtn">Back</button>
+<video id="video" autoplay playsinline></video>
+<canvas id="canvas" style="display:none;"></canvas>
+<img id="output"/>
 
-    <script src="yolo.js"></script>
+<button id="backBtn">Back</button>
+
+<script>
+const video = document.getElementById("video");
+const canvas = document.getElementById("canvas");
+const output = document.getElementById("output");
+
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(stream => {
+    video.srcObject = stream;
+});
+
+setInterval(() => {
+    if (!video.videoWidth) return;
+
+    const ctx = canvas.getContext("2d");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    ctx.drawImage(video, 0, 0);
+
+    canvas.toBlob(blob => {
+        const formData = new FormData();
+        formData.append("image", blob);
+
+        fetch("http://flask:5002/detect", {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.blob())
+        .then(imgBlob => {
+            output.src = URL.createObjectURL(imgBlob);
+        });
+
+    }, "image/jpeg");
+}, 200);
+
+document.getElementById("backBtn").onclick = () => {
+    window.location.href = "index.html";
+};
+</script>
+
 </body>
 </html>
