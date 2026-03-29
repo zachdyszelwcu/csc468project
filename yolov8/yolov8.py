@@ -1,3 +1,4 @@
+/*
 from flask import Flask, request, send_file
 import numpy as np
 import cv2
@@ -31,3 +32,5 @@ def detect():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5002)
+
+*/
