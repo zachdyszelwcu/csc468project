@@ -12,11 +12,12 @@ flowchart LR
 
   B -->|"REST API<br/>POST /detect"| C("Backend Container<br/>(Flask + YOLOv8)")
 
-  subgraph "Docker Network (Bridge)"
+  subgraph DN["Docker Network (Bridge)"]
     B
     C
   end
 
+  style DN color:#000000,fill:#D6D6D6,stroke:#BBDEFB
   style A color:#FFFFFF,fill:#424242,stroke:#C8E6C9
   style B color:#FFFFFF,fill:#424242,stroke:#BBDEFB
   style C color:#FFFFFF,fill:#424242,stroke:#FFCDD2
