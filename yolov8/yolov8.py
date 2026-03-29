@@ -4,7 +4,11 @@ import cv2
 model = YOLO("yolov8s.pt")
 
 def generate_frames():
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    
+    if not cap.isOpened():
+        print("ERROR: Camera not opening")
+        return
 
     while True:
         success, frame = cap.read()
