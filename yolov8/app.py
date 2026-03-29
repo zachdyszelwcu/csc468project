@@ -1,10 +1,12 @@
 from flask import Flask, request, send_file
+from flask_cors import CORS
 import numpy as np
 import cv2
 from ultralytics import YOLO
 import io
 
 app = Flask(__name__)
+CORS(app)
 
 model = YOLO("yolov8s.pt")
 
