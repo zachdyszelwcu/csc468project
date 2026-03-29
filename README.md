@@ -30,7 +30,7 @@ The web client will be containerized using a Node.js base image (e.g., node:20-a
 Docker will be used for building and running containers during development, and the services will be deployed on a separate CloudLab Nodes to simulate a realistic multi-component cloud environment. The detection API will be exposed over HTTP, and the web client will communicate with it using REST requests.
 
 
-# Front-end Dockerfile ([View File](./frontend/Dockerfile))
+# Frontend Dockerfile ([View File](./frontend/Dockerfile))
 
 ### FROM node:18-alpine
 Using a Node.js image
@@ -50,14 +50,14 @@ Installs all dependencies listed in package.json
 Copies all files into the container
 
 ### EXPOSE 3000
-Exposes port 3000 (this is where the front-end runs inside the container)
+Exposes port 3000 (this is where the frontend runs inside the container)
 
 ### CMD ["node", "server.js"]
 Runs the Node.js server using server.js
-This starts the Express server that servers the front-end
+This starts the Express server that servers the frontend
 
 
-# Back-end Dockerfile ([View File](./yolov8/Dockerfile))
+# Backend Dockerfile ([View File](./yolov8/Dockerfile))
 ### FROM python:3.10-slim
 Using a python image
 I chose this because it is needed to support the backend and host the required libraries.
@@ -79,9 +79,22 @@ Installs all Python libraries needed for the backend.
 -r is requirements and tells pip to install packages from requirements.txt
 
 ### CMD ["python", "app.py"]
-Runs the back-end using app.py
+Runs the backend using app.py
 The backend listens on port 5002
 
 
-# Network
-## Docker-compose ([View File](docker-compose.yml))
+# Network Docker-compose ([View File](docker-compose.yml))
+The backend (Flask) runs on port 5002
+The frontend runs on port 3000 and is exposed to the browser at 8081
+The containers communicate using a Docker bridge network
+
+### depends_on: - flask
+Makes sure that the backend starts before the frontend
+
+### Communication
+The containers do not use IP addresses but instead they communicate using service names
+
+### Flow of requests
+Browser -> localhost:8081 -> frontend (Node.js)
+frontend -> http://flask:5002 -> backend (Flask)
+backend -> returns processed image -> frontend -> browser
