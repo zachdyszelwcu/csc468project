@@ -1,49 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const video = document.getElementById("video");
-    const canvas = document.getElementById("canvas");
-    const output = document.getElementById("output");
+    const title = document.querySelector(".Title");
+    if (title) {
+        const text = title.textContent;
+        title.innerHTML = "";
 
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-            video.srcObject = stream;
+        text.split("").forEach(char => {
+            const span = document.createElement("span");
+            span.textContent = char === " " ? "\u00A0" : char;
+
+            const confidence = (0.78 + Math.random() * (0.99 - 0.78)).toFixed(2);
+            span.setAttribute("data-label", "Letter " + char + " " + confidence);
+
+            title.appendChild(span);
         });
-
-    const ctx = canvas.getContext("2d");
-
-    async function processFrame() {
-        if (!video.videoWidth) return;
-
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
-        ctx.drawImage(video, 0, 0);
-
-        const imageData = canvas.toDataURL("image/jpeg");
-
-        try {
-            const response = await fetch("/detect", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ image: imageData })
-            });
-
-            const data = await response.json();
-
-            if (data.image) {
-                output.src = "data:image/jpeg;base64," + data.image;
-            }
-
-        } catch (err) {
-            console.error(err);
-        }
     }
 
-    video.addEventListener("loadeddata", () => {
-        setInterval(processFrame, 500);
-    });
+    const cameraBtn = document.getElementById("cameraBtn");
+    if (cameraBtn) {
+        cameraBtn.addEventListener("click", () => {
+            window.location.href = "camera.html";
+        });
+    }
 
     const backBtn = document.getElementById("backBtn");
     if (backBtn) {
