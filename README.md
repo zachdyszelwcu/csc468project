@@ -30,8 +30,8 @@ The web client will be containerized using a Node.js base image (e.g., node:20-a
 Docker will be used for building and running containers during development, and the services will be deployed on a separate CloudLab Nodes to simulate a realistic multi-component cloud environment. The detection API will be exposed over HTTP, and the web client will communicate with it using REST requests.
 
 
-# Front-end
-## Dockerfile ([View File](./frontend/Dockerfile))
+# Front-end Dockerfile ([View File](./frontend/Dockerfile))
+
 ### FROM node:18-alpine
 Using a Node.js image
 I chose this image because it is a lightweight, ready-to-depoly image to host the frontend
@@ -57,8 +57,7 @@ Runs the Node.js server using server.js
 This starts the Express server that servers the front-end
 
 
-# Back-end
-## Dockerfile ([View File](./yolov8/Dockerfile))
+# Back-end Dockerfile ([View File](./yolov8/Dockerfile))
 ### FROM python:3.10-slim
 Using a python image
 I chose this because it is needed to support the backend and host the required libraries.
