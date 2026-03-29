@@ -27,7 +27,7 @@ def generate_frames():
 
         annotated_frame = results[0].plot()
 
-        _, buffer = cv2.imencode('.jpg', frame)
+        _, buffer = cv2.imencode('.jpg', annotated_frame)
         frame_bytes = buffer.tobytes()
 
         yield (b'--frame\r\n'
