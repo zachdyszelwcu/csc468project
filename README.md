@@ -12,7 +12,7 @@ flowchart LR
 
   B -->|"REST API<br/>POST /detect"| C("Backend Container<br/>(Flask + YOLOv8)")
 
-  subgraph Docker Network (Bridge)
+  subgraph "Docker Network (Bridge)"
     B
     C
   end
