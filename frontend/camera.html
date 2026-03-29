@@ -38,7 +38,7 @@ setInterval(() => {
         const formData = new FormData();
         formData.append("image", blob);
 
-        fetch("http://flask:5002/detect", {
+        fetch("http://localhost:5002/detect", {
             method: "POST",
             body: formData
         })
