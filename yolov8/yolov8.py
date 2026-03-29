@@ -1,34 +1,33 @@
-from ultralytics import YOLO
+from flask import Flask, request, send_file
+import numpy as np
 import cv2
+from ultralytics import YOLO
+import io
+
+app = Flask(__name__)
 
 model = YOLO("yolov8s.pt")
 
-def get_camera():
-    for i in range(5):
-        cap = cv2.VideoCapture(i)
-        if cap.isOpened():
-            print(f"Using camera index {i}")
-            return cap
-    print("No camera found")
-    return None
+@app.route("/")
+def home():
+    return "Backend running"
 
-def generate_frames():
-    cap = get_camera()
+@app.route("/detect", methods=["POST"])
+def detect():
+    file = request.files["image"].read()
 
-    if cap is None:
-        return
+    npimg = np.frombuffer(file, np.uint8)
+    img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
 
-    while True:
-        success, frame = cap.read()
-        if not success:
-            break
+    results = model(img)
+    annotated = results[0].plot()
 
-        results = model(frame)
+    _, buffer = cv2.imencode(".jpg", annotated)
 
-        annotated_frame = results[0].plot()
+    return send_file(
+        io.BytesIO(buffer),
+        mimetype="image/jpeg"
+    )
 
-        _, buffer = cv2.imencode('.jpg', annotated_frame)
-        frame_bytes = buffer.tobytes()
-
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5002)
