@@ -25,14 +25,19 @@ navigator.mediaDevices.getUserMedia({ video: true })
     video.srcObject = stream;
 });
 
+let processing = false;
+
 setInterval(() => {
-    if (!video.videoWidth) return;
+    if (!video.videoWidth || processing) return;
+
+    processing = true;
 
     const ctx = canvas.getContext("2d");
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
 
-    ctx.drawImage(video, 0, 0);
+    canvas.width = 320;
+    canvas.height = 240;
+
+    ctx.drawImage(video, 0, 0, 320, 240);
 
     canvas.toBlob(blob => {
         const formData = new FormData();
@@ -45,10 +50,16 @@ setInterval(() => {
         .then(res => res.blob())
         .then(imgBlob => {
             output.src = URL.createObjectURL(imgBlob);
+            processing = false;
+        })
+        .catch(err => {
+            console.error(err);
+            processing = false;
         });
 
     }, "image/jpeg");
-}, 200);
+
+}, 300);
 
 document.getElementById("backBtn").onclick = () => {
     window.location.href = "index.html";
