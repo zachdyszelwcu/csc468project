@@ -72,6 +72,31 @@ button {
     cursor: pointer;
 }
 
+input[type="file"] {
+    display: none;
+  }
+  
+  .custom-file-upload {
+    width: 120px;
+    height: 120px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+
+    color: #003f00;
+    background-color: #ffffff;
+    border: none;
+    cursor: pointer;
+  }
+
+  .custom-file-upload:hover {
+    box-shadow: 0 0 0 2px #003f00;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
 
 button:hover {
     box-shadow: 0 0 0 2px #003f00;
@@ -89,6 +114,13 @@ button:hover {
 
     margin-bottom: 20px;
 }
+
+#preview {
+    width: 400px; 
+    height: auto; 
+    border-radius: 10px;
+}
+
 
 #cameraFeed.loaded {
     box-shadow: 0 0 0 2px #003f00;
