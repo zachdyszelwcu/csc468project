@@ -5,6 +5,8 @@ services:
     build: ./yolov8
     ports:
       - "5002:5002"
+    depends_on:
+      - mongodb
 
   frontend:
     build: ./frontend
@@ -12,3 +14,12 @@ services:
       - "8081:3000"
     depends_on:
       - flask
+      
+  mongodb:
+    image: mongo:6
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
