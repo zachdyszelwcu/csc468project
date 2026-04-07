@@ -27,6 +27,8 @@
             const img = document.getElementById("preview");
             const stored = localStorage.getItem("uploadedImage");
             
+            const backendURL = `${window.location.protocol}//${window.location.hostname}:5002/detect`;
+            
             if (stored) {
                 img.src = stored;
             
@@ -38,14 +40,14 @@
                         formData.append("image", blob, "upload.jpg");
             
                         try {
-                            const response = await fetch("http://localhost:5002/detect", {
+                            const response = await fetch(backendURL, {
                                 method: "POST",
                                 body: formData
                             });
             
                             const resultBlob = await response.blob();
-            
                             const resultURL = URL.createObjectURL(resultBlob);
+            
                             img.src = resultURL;
             
                         } catch (err) {
