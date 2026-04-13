@@ -2,5 +2,4 @@ flask
 ultralytics
 opencv-python
 flask-cors
-pymongo
-mongoose
+minio
