@@ -2,69 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Camera</title>
+    <title>Gallery</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 <body>
 
-<h1></h1>
+<div class="head">
+    <h1 class="Title">Gallery</h1>
+</div>
 
-<video id="video" autoplay playsinline style="display:none;"></video>
-<canvas id="canvas" style="display:none;"></canvas>
-<img id="output"/>
-
-<button id="backBtn">Back</button>
-
-<script>
-const video = document.getElementById("video");
-const canvas = document.getElementById("canvas");
-const output = document.getElementById("output");
-
-navigator.mediaDevices.getUserMedia({ video: true })
-.then(stream => {
-    video.srcObject = stream;
-});
-
-let processing = false;
-
-setInterval(() => {
-    if (!video.videoWidth || processing) return;
-
-    processing = true;
-
-    const ctx = canvas.getContext("2d");
-
-    canvas.width = 320;
-    canvas.height = 240;
-
-    ctx.drawImage(video, 0, 0, 320, 240);
-
-    canvas.toBlob(blob => {
-        const formData = new FormData();
-        formData.append("image", blob);
-
-        fetch("http://localhost:5002/detect", {
-            method: "POST",
-            body: formData
-        })
-        .then(res => res.blob())
-        .then(imgBlob => {
-            output.src = URL.createObjectURL(imgBlob);
-            processing = false;
-        })
-        .catch(err => {
-            console.error(err);
-            processing = false;
-        });
-
-    }, "image/jpeg");
-
-}, 300);
-
-document.getElementById("backBtn").onclick = () => {
-    window.location.href = "index.html";
-};
-</script>
+<div class="scene">
+    <div class="carousel">
+      <div class="carousel__cell"></div>
+      <div class="carousel__cell"></div>
+      <div class="carousel__cell"></div>
+      <div class="carousel__cell"></div>
+      <div class="carousel__cell"></div>
+      <div class="carousel__cell"></div>
+    </div>
+  </div>
+  
+  <div class="carousel-options">
+    <div id="gallery_buttons">
+        <button class="previous-button">Previous</button>
+        <button class="next-button">Next</button>
+    </div>
+  </div>
+  
+<script src="yolo.js"></script>
 
 </body>
 </html>
