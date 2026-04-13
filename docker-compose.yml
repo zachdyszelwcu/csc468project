@@ -6,7 +6,7 @@ services:
     ports:
       - "5002:5002"
     depends_on:
-      - mongodb
+      - minio
     restart: always
 
   frontend:
@@ -15,17 +15,21 @@ services:
       - "8081:3000"
     depends_on:
       - flask
-      
-  mongodb:
-    image: mongo:6
-    container_name: mongo-db
+    restart: always
+
+  minio:
+    image: minio/minio
     ports:
-      - "27017:27017"
+      - "9000:9000"
+      - "9001:9001"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password123
+      MINIO_ROOT_USER: zachminioadmin
+      MINIO_ROOT_PASSWORD: zachminioadmin
+    command: server /data --console-address ":9001"
     volumes:
-      - mongo-data:/data/db
-  
+      - minio_data:/data
+    restart: always
+
+
 volumes:
-  mongo-data:
+  minio_data:
