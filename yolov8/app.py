@@ -62,6 +62,15 @@ def detect():
 
     return send_file(io.BytesIO(buffer), mimetype="image/jpeg")
 
+@app.route("/image/<filename>")
+def get_image(filename):
+    try:
+        response = client.get_object("gallery", filename)
+        return response.read(), 200, {'Content-Type': 'image/jpeg'}
+    except Exception as e:
+        print("Image fetch error:", e)
+        return {"error": "Image not found"}, 404
+
 @app.route("/save", methods=["POST"])
 def save_to_minio():
     global LAST_IMAGE_PATH
@@ -89,7 +98,7 @@ def save_to_minio():
 @app.route("/gallery", methods=["GET"])
 def get_gallery():
     try:
-        base_url = request.host_url.split(":5002")[0] + ":9000/"
+        base_url = request.host_url
 
         objects = client.list_objects("gallery", recursive=True)
         files = [obj.object_name for obj in objects]
@@ -106,7 +115,7 @@ def get_gallery():
         selected = [latest] + remaining[:5]
 
         urls = [
-            f"{base_url}gallery/{name}"
+            f"{base_url}image/{name}"
             for name in selected
         ]
 
@@ -139,9 +148,9 @@ def upload_to_minio():
             content_type=file.content_type
         )
 
-        base_url = request.host_url.split(":5002")[0] + ":9000/"
+        base_url = request.host_url
 
-        url = f"{base_url}gallery/{filename}"
+        url = f"{base_url}image/{filename}"
 
         return {"message": "Upload successful", "url": url}  
 
