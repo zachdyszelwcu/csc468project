@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   flask:
-    image: YOUR_DOCKERHUB_USERNAME/yolov8-flask:latest
+    image: zd991845/yolov8-flask:latest
     build:
       context: ./yolov8
       dockerfile: Dockerfile
@@ -21,7 +21,7 @@ services:
     cpus: "1.5"
 
   frontend:
-    image: YOUR_DOCKERHUB_USERNAME/yolov8-frontend:latest
+    image: zd991845/yolov8-frontend:latest
     build:
       context: ./frontend
       dockerfile: Dockerfile
