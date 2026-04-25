@@ -1,21 +1,43 @@
-version: '3.8'
+version: "3.8"
 
 services:
   flask:
-    build: ./yolov8
+    image: YOUR_DOCKERHUB_USERNAME/yolov8-flask:latest
+    build:
+      context: ./yolov8
+      dockerfile: Dockerfile
     ports:
       - "5002:5002"
     depends_on:
       - minio
     restart: always
 
+    user: "1000:1000"
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 2g
+    cpus: "1.5"
+
   frontend:
-    build: ./frontend
+    image: YOUR_DOCKERHUB_USERNAME/yolov8-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "8081:3000"
     depends_on:
       - flask
     restart: always
+
+    user: "1000:1000"
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 512m
+    cpus: "0.5"
 
   minio:
     image: minio/minio
@@ -29,7 +51,6 @@ services:
     volumes:
       - minio_data:/data
     restart: always
-
 
 volumes:
   minio_data:
