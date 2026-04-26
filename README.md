@@ -8,19 +8,19 @@ config:
   theme: neutral
 ---
 flowchart LR
-  A("Browser<br/>(Client)") -->|"HTTP<br/>localhost:8081"| B("Frontend Container<br/>(Node.js / Express)")
-
-  B -->|"REST API<br/>POST /detect"| C("Backend Container<br/>(Flask + YOLOv8)")
-
-  subgraph DN["Docker Network (Bridge)"]
-    B
-    C
+ subgraph DN["Docker Network (Bridge)"]
+        B("Frontend Container<br>(Node.js / Express)")
+        C("Backend Container<br>(Flask + YOLOv8)")
   end
+    A("Browser<br>(Client)") -- HTTP<br>localhost:8081 --> B
+    B -- REST API<br>POST /detect --> C
+    C --> n1["Amazon AWS S3"]
 
-  style DN color:#000000,fill:#D6D6D6,stroke:#BBDEFB
-  style A color:#FFFFFF,fill:#424242,stroke:#C8E6C9
-  style B color:#FFFFFF,fill:#424242,stroke:#BBDEFB
-  style C color:#FFFFFF,fill:#424242,stroke:#FFCDD2
+    n1@{ shape: rect}
+    style B color:#FFFFFF,fill:#424242,stroke:#BBDEFB
+    style C color:#FFFFFF,fill:#424242,stroke:#FFCDD2
+    style A color:#FFFFFF,fill:#424242,stroke:#C8E6C9
+    style DN color:#000000,fill:#D6D6D6,stroke:#BBDEFBC color:#FFFFFF,fill:#424242,stroke:#FFCDD2
 ```
 
 
