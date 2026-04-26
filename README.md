@@ -20,7 +20,7 @@ flowchart LR
     style B color:#FFFFFF,fill:#424242,stroke:#BBDEFB
     style C color:#FFFFFF,fill:#424242,stroke:#FFCDD2
     style A color:#FFFFFF,fill:#424242,stroke:#C8E6C9
-    style DN color:#000000,fill:#D6D6D6,stroke:#BBDEFBC color:#FFFFFF,fill:#424242,stroke:#FFCDD2
+    style DN color:#111111,fill:#D6D6D6,stroke:#BBDEFB
 ```
 
 
