@@ -1,32 +1,67 @@
-name: pipeline
+name: YOLOv8 CI/CD Pipeline
+
 on:
   push:
     branches:
-      - "go_app_compose_cdci"
+      - main
 
 jobs:
   build-push:
-    name: build && push image to Docker Hub
-    runs-on: self-hosted
+    name: Build and push images to Docker Hub
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: go_app_compose_cdci
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: setup docker buildx
-        uses: docker/setup-buildx-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: docker login
-        uses: docker/login-action@v2
+      - name: Docker Hub login
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: build and push api
-        id: build-push-api
-        uses: docker/build-push-action@v3
+      - name: Build and push Flask backend image
+        uses: docker/build-push-action@v6
         with:
-          context: ./docker
+          context: ./yolov8
+          file: ./yolov8/Dockerfile
           push: true
-          tags: linhbngo/go_server:latest
+          tags: zd991845/yolov8-flask:latest
+
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: zd991845/yolov8-frontend:latest
+
+  deploy:
+    name: Deploy updated stack on CloudLab
+    needs: build-push
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Docker Hub login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Pull latest images
+        run: docker compose pull
+
+      - name: Restart containers
+        run: docker compose up -d
+
+      - name: Show running containers
+        run: docker ps
+
+      - name: Clean up old unused images
+        run: docker image prune -f
