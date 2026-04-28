@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   flask:
     image: zd991845/yolov8-flask:latest
@@ -9,14 +7,17 @@ services:
     ports:
       - "5002:5002"
     restart: always
-
-    user: "1000:1000"
     cap_drop:
       - ALL
     security_opt:
       - no-new-privileges:true
     mem_limit: 2g
     cpus: "1.5"
+    environment:
+      S3_BUCKET_NAME: ${S3_BUCKET_NAME}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
 
   frontend:
     image: zd991845/yolov8-frontend:latest
@@ -28,7 +29,6 @@ services:
     depends_on:
       - flask
     restart: always
-
     user: "1000:1000"
     cap_drop:
       - ALL
