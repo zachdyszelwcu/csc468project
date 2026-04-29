@@ -81,7 +81,7 @@ button {
     cursor: pointer;
 
     opacity: 0;
-    animation: fadeInGallery 2s ease-in forwards;
+    animation: fadeInGallery 1s ease-in forwards;
 }
 
 input[type="file"] {
@@ -104,7 +104,7 @@ input[type="file"] {
     cursor: pointer;
 
     opacity: 0;
-    animation: fadeInGallery 2s ease-in forwards;
+    animation: fadeInGallery 1s ease-in forwards;
   }
 
   .custom-file-upload:hover {
@@ -179,8 +179,9 @@ body {
   transform-style: preserve-3d;
   transition: transform 1s;
   scale: 200%;
+
   opacity: 0;
-  animation: fadeInGallery 2s ease-in forwards;
+  animation: fadeInGallery 1s ease-in forwards;
 }
 
 .carousel__cell {
@@ -189,7 +190,7 @@ body {
   height: 120px;
   left: 10px;
   top: 10px;
-  border: 2px solid #003f00;
+  border: 2px solid black;
   line-height: 116px;
   font-size: 80px;
   font-weight: bold;
@@ -205,23 +206,49 @@ body {
   object-fit: cover;
 }
 
-.carousel-options #gallery_buttons {
-
+.carousel-options {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 6px;
+    gap: 100px;
 
-    flex-direction: row;
+    margin-top: -25px;
+}
+
+.carousel-options .gallery-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+
+    padding: 0;
+    margin: 0;
 
     color: #003f00;
     background-color: #ffffff;
     border: none;
     cursor: pointer;
+
+    opacity: 1;
+    animation: none;
+
+    line-height: 1;
+
+    opacity: 0;
+    animation: fadeInGallery 1s ease-in forwards;
 }
 
-#gallery_buttons .material-symbols-outlined {
-    font-size: 30px;
+.carousel-options .gallery-button:hover {
+    box-shadow: 0 0 0 2px #003f00;
+}
+
+.carousel-options .gallery-button .material-symbols-outlined {
+    font-size: 28px;
+    line-height: 1;
 }
 
 .back-button {
