@@ -20,6 +20,8 @@
 </div>
 
 <script>
+const BACKEND_URL = `${window.location.protocol}//${window.location.hostname}:5002`;
+
 const img = document.getElementById("preview");
 const stored = localStorage.getItem("uploadedImage");
 const saveBtn = document.getElementById("saveBtn");
@@ -32,26 +34,33 @@ if (stored) {
     fetch(stored)
         .then(res => res.blob())
         .then(async (blob) => {
-
             const formData = new FormData();
             formData.append("image", blob, "upload.jpg");
 
-            const response = await fetch("http://localhost:5002/detect", {
+            const response = await fetch(`${BACKEND_URL}/detect`, {
                 method: "POST",
                 body: formData
             });
+
+            if (!response.ok) {
+                alert("Detection failed");
+                return;
+            }
 
             const resultBlob = await response.blob();
             const resultURL = URL.createObjectURL(resultBlob);
 
             img.src = resultURL;
             saveBtn.disabled = false;
+        })
+        .catch(() => {
+            alert("Could not connect to backend");
         });
 }
 
 saveBtn.addEventListener("click", async () => {
     try {
-        const res = await fetch("http://localhost:5002/save", {
+        const res = await fetch(`${BACKEND_URL}/save`, {
             method: "POST"
         });
 
