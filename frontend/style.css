@@ -187,13 +187,15 @@ body {
   height: 120px;
   left: 10px;
   top: 10px;
-  border: 2px solid black;
+  border: 0px solid black;
   line-height: 116px;
   font-size: 80px;
   font-weight: bold;
   color: white;
   text-align: center;
   transition: transform 1s, opacity 1s;
+  opacity: 0;
+  animation: fadeInGallery 1s ease-in forwards;
 }
 
 
@@ -209,7 +211,7 @@ body {
     align-items: center;
     gap: 100px;
 
-    margin-top: -25px;
+    margin-top: -20px;
 }
 
 .carousel-options .gallery-button {
@@ -234,18 +236,16 @@ body {
     animation: none;
 
     line-height: 1;
-
-    opacity: 0;
-    animation: fadeInGallery 1s ease-in forwards;
 }
 
 .carousel-options .gallery-button:hover {
-    box-shadow: 0 0 0 2px #003f00;
+    box-shadow: 0 0 0 0px #003f00;
 }
 
 .carousel-options .gallery-button .material-symbols-outlined {
     font-size: 28px;
     line-height: 1;
+    animation: fadeInGallery 1s ease-in forwards;
 }
 
 .back-button {
