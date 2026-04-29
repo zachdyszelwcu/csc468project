@@ -64,7 +64,7 @@ jobs:
         run: docker compose pull
 
       - name: Restart containers
-        run: docker compose up -d
+        run: docker compose up -d --force-recreate
 
       - name: Show running containers
         run: docker ps
