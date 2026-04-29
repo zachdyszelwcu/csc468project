@@ -15,6 +15,7 @@ body {
 .gallery-title {
     font-size: 3rem;
     margin: 0 0 10px 0;
+    margin-bottom: -25px;
 }
 
 
@@ -188,7 +189,7 @@ body {
   height: 120px;
   left: 10px;
   top: 10px;
-  box-shadow: 0 0 5px 1px rgba(0,63,0,0.25);
+  border: 2px solid #003f00;
   line-height: 116px;
   font-size: 80px;
   font-weight: bold;
