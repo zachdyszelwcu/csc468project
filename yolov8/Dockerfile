@@ -2,7 +2,7 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     libgl1 \
     libglib2.0-0 \
     curl \
@@ -27,8 +27,10 @@ ENV MPLCONFIGDIR=/home/appuser/.config/matplotlib
 RUN mkdir -p /home/appuser/.cache/torch \
     /home/appuser/.config/Ultralytics \
     /home/appuser/.config/matplotlib \
+    /tmp \
     && chown -R appuser:appuser /home/appuser \
-    && chown -R appuser:appuser /app
+    && chown -R appuser:appuser /app \
+    && chown -R appuser:appuser /tmp
 
 USER appuser
 
