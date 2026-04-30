@@ -37,7 +37,7 @@ This project uses GitHub Actions for CI/CD. Instead of using the default GitHub-
 
 Once in the CloudLab node:
 
-Download runner
+### 1.) Download runner
 ```bash
 # Create a folder
 $ mkdir actions-runner && cd actions-runner# Download the latest runner package
@@ -46,7 +46,7 @@ $ echo "048024cd2c848eb6f14d5646d56c13a4def2ae7ee3ad12122bee960c56f3d271  action
 $ tar xzf ./actions-runner-linux-x64-2.334.0.tar.gz
 ```
 
-And then configure
+### 2.) Configure
 ```bash
 # Create the runner and start the configuration experience
 $ ./config.sh --url https://github.com/zachdyszelwcu/csc468project --token <runner_token> # hit enter for all prompts
