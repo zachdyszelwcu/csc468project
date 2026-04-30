@@ -31,6 +31,29 @@ Docker will be used for building and running containers during development, and 
 
 ## Getting Started
 
+First you want to start your CloudLab experiment by instantiating from the docker branch. Choose either Clemson or Wisconsin and leave everything else default. Once your experiment had booted up, ssh into your CloudLab node.
+
+This project uses GitHub Actions for CI/CD. Instead of using the default GitHub-hosted runner, I configured a self-hosted runner on my CloudLab node. This allowed the repository workflow to build and push the project’s Docker images directly from the CloudLab environment.
+
+Once in the CloudLab node:
+
+Download runner
+```bash
+# Create a folder
+$ mkdir actions-runner && cd actions-runner# Download the latest runner package
+$ curl -o actions-runner-linux-x64-2.334.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.334.0/actions-runner-linux-x64-2.334.0.tar.gz# Optional: Validate the hash
+$ echo "048024cd2c848eb6f14d5646d56c13a4def2ae7ee3ad12122bee960c56f3d271  actions-runner-linux-x64-2.334.0.tar.gz" | shasum -a 256 -c# Extract the installer
+$ tar xzf ./actions-runner-linux-x64-2.334.0.tar.gz
+```
+
+And then configure
+```bash
+# Create the runner and start the configuration experience
+$ ./config.sh --url https://github.com/zachdyszelwcu/csc468project --token <runner_token>
+# Run it!
+$ ./run.sh
+```
+
 
 ## Backend
 ### Dockerfile
