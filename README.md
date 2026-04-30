@@ -49,7 +49,7 @@ $ tar xzf ./actions-runner-linux-x64-2.334.0.tar.gz
 And then configure
 ```bash
 # Create the runner and start the configuration experience
-$ ./config.sh --url https://github.com/zachdyszelwcu/csc468project --token <runner_token>
+$ ./config.sh --url https://github.com/zachdyszelwcu/csc468project --token <runner_token> # hit enter for all prompts
 # Run it!
 $ ./run.sh
 ```
