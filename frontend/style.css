@@ -219,10 +219,10 @@ body {
     justify-content: center;
     align-items: center;
 
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    min-height: 32px;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
 
     padding: 0;
     margin: 0;
@@ -265,4 +265,9 @@ body {
     font-size: 18px;
     text-decoration: none;
     z-index: 1000;
+}
+
+#gallery_buttons {
+    display: flex;
+    gap: 100px;
 }
