@@ -58,23 +58,17 @@ $ ./run.sh
 ## Backend
 ### Dockerfile
 fill in here
-### App.js
-fill in here
-### Requirements
-fill in here
 
 ## Frontend
 ### Dockerfile
 fill in here
-### Server.js
-fill in here
-### Yolo.js
-fill in here
 
-## Docker
+## Docker Compose
 ### Docker compose
 fill in here
 ### Docker compose images
 fill in here
+
+## CD/CI
 ### Publish.yml
 fill in here
