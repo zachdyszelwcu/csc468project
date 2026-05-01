@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 reader.onload = function(e) {
                     localStorage.setItem("uploadedImage", e.target.result);
-                    console.log("Redirecting...");
                     window.location.href = "upload.html";
                 };
 
@@ -54,14 +53,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     method: "POST"
                 });
 
-                
-
                 const data = await res.json();
 
                 if (!res.ok) {
                     alert(data.error || "Save failed");
                 } else {
                     alert(data.message);
+                    loadGallery();
                 }
 
             } catch (err) {
@@ -69,7 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Server error");
             }
         });
-        loadGallery();
     }
 
     const title = document.querySelector(".Title");
@@ -102,48 +99,50 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-async function loadGallery() {
-    try {
-        const API_BASE = window.location.origin.replace("8081", "5002");
-
-        const res = await fetch(`${API_BASE}/gallery`);
-        const data = await res.json();
-
-        if (!res.ok) {
-            console.error(data.error);
-            return;
-        }
-
-        if (!data.images || data.images.length === 0) {
-            console.log("No images found");
-            return;
-        }
-
-        const carousel = document.querySelector(".carousel");
-        carousel.innerHTML = "";
-
-        data.images.forEach(url => {
-            const cell = document.createElement("div");
-            cell.className = "carousel__cell";
-
-            const img = document.createElement("img");
-            img.src = url;
-
-            cell.appendChild(img);
-            carousel.appendChild(cell);
-        });
-
-        initCarousel();
-
-    } catch (err) {
-        console.error("Failed to load gallery:", err);
+    if (document.querySelector(".carousel")) {
+        loadGallery();
     }
-}
+
+    async function loadGallery() {
+        try {
+            const res = await fetch(`${API_BASE}/gallery`);
+            const data = await res.json();
+
+            if (!res.ok) {
+                console.error(data.error);
+                return;
+            }
+
+            if (!data.images || data.images.length === 0) {
+                console.log("No images found");
+                return;
+            }
+
+            const carousel = document.querySelector(".carousel");
+            carousel.innerHTML = "";
+
+            data.images.forEach(url => {
+                const cell = document.createElement("div");
+                cell.className = "carousel__cell";
+
+                const img = document.createElement("img");
+                img.src = url;
+
+                cell.appendChild(img);
+                carousel.appendChild(cell);
+            });
+
+            initCarousel();
+
+        } catch (err) {
+            console.error("Failed to load gallery:", err);
+        }
+    }
 
     function initCarousel() {
         var carousel = document.querySelector('.carousel');
         if (!carousel) return;
-    
+
         var cells = carousel.querySelectorAll('.carousel__cell');
         var selectedIndex = 0;
         var cellWidth = carousel.offsetWidth;
@@ -151,14 +150,13 @@ async function loadGallery() {
         var isHorizontal = true;
         var rotateFn = isHorizontal ? 'rotateY' : 'rotateX';
         var radius, theta;
-    
+
         function updateOpacities() {
             var cellCount = cells.length;
             cells.forEach((cell, i) => {
-
                 var diff = ((i - selectedIndex) % cellCount + cellCount) % cellCount;
                 if (diff > cellCount / 2) diff = cellCount - diff;
-    
+
                 if (diff === 0) {
                     cell.style.opacity = 1;
                 } else if (diff === 1) {
@@ -168,7 +166,7 @@ async function loadGallery() {
                 }
             });
         }
-    
+
         function rotateCarousel() {
             var angle = theta * selectedIndex * -1;
             carousel.style.transform =
@@ -176,7 +174,7 @@ async function loadGallery() {
                 rotateFn + '(' + angle + 'deg)';
             updateOpacities();
         }
-    
+
         var prevButton = document.querySelector('.previous-button');
         if (prevButton) {
             prevButton.onclick = () => {
@@ -184,7 +182,7 @@ async function loadGallery() {
                 rotateCarousel();
             };
         }
-    
+
         var nextButton = document.querySelector('.next-button');
         if (nextButton) {
             nextButton.onclick = () => {
@@ -192,25 +190,23 @@ async function loadGallery() {
                 rotateCarousel();
             };
         }
-    
+
         function changeCarousel() {
             var cellCount = cells.length;
             theta = 360 / cellCount;
-    
+
             var cellSize = isHorizontal ? cellWidth : cellHeight;
             radius = Math.round((cellSize / 2) / Math.tan(Math.PI / cellCount));
-    
+
             cells.forEach((cell, i) => {
                 var cellAngle = theta * i;
                 cell.style.transform =
                     rotateFn + '(' + cellAngle + 'deg) translateZ(' + radius + 'px)';
             });
-    
+
             updateOpacities();
         }
-    
+
         changeCarousel();
     }
-}
-loadGallery();
 });
