@@ -140,60 +140,77 @@ async function loadGallery() {
     }
 }
 
-function initCarousel() {
-    var carousel = document.querySelector('.carousel');
-    if (!carousel) return;
+    function initCarousel() {
+        var carousel = document.querySelector('.carousel');
+        if (!carousel) return;
+    
+        var cells = carousel.querySelectorAll('.carousel__cell');
+        var selectedIndex = 0;
+        var cellWidth = carousel.offsetWidth;
+        var cellHeight = carousel.offsetHeight;
+        var isHorizontal = true;
+        var rotateFn = isHorizontal ? 'rotateY' : 'rotateX';
+        var radius, theta;
+    
+        function updateOpacities() {
+            var cellCount = cells.length;
+            cells.forEach((cell, i) => {
 
-    var cells = carousel.querySelectorAll('.carousel__cell');
-    var selectedIndex = 0;
-    var cellWidth = carousel.offsetWidth;
-    var cellHeight = carousel.offsetHeight;
-    var isHorizontal = true;
-    var rotateFn = isHorizontal ? 'rotateY' : 'rotateX';
-    var radius, theta;
-
-    function rotateCarousel() {
-        var angle = theta * selectedIndex * -1;
-        carousel.style.transform =
-            'translateZ(' + -radius + 'px) ' +
-            rotateFn + '(' + angle + 'deg)';
+                var diff = ((i - selectedIndex) % cellCount + cellCount) % cellCount;
+                if (diff > cellCount / 2) diff = cellCount - diff;
+    
+                if (diff === 0) {
+                    cell.style.opacity = 1;
+                } else if (diff === 1) {
+                    cell.style.opacity = 0.5;
+                } else {
+                    cell.style.opacity = 0;
+                }
+            });
+        }
+    
+        function rotateCarousel() {
+            var angle = theta * selectedIndex * -1;
+            carousel.style.transform =
+                'translateZ(' + -radius + 'px) ' +
+                rotateFn + '(' + angle + 'deg)';
+            updateOpacities();
+        }
+    
+        var prevButton = document.querySelector('.previous-button');
+        if (prevButton) {
+            prevButton.onclick = () => {
+                selectedIndex--;
+                rotateCarousel();
+            };
+        }
+    
+        var nextButton = document.querySelector('.next-button');
+        if (nextButton) {
+            nextButton.onclick = () => {
+                selectedIndex++;
+                rotateCarousel();
+            };
+        }
+    
+        function changeCarousel() {
+            var cellCount = cells.length;
+            theta = 360 / cellCount;
+    
+            var cellSize = isHorizontal ? cellWidth : cellHeight;
+            radius = Math.round((cellSize / 2) / Math.tan(Math.PI / cellCount));
+    
+            cells.forEach((cell, i) => {
+                var cellAngle = theta * i;
+                cell.style.transform =
+                    rotateFn + '(' + cellAngle + 'deg) translateZ(' + radius + 'px)';
+            });
+    
+            updateOpacities();
+        }
+    
+        changeCarousel();
     }
-
-    var prevButton = document.querySelector('.previous-button');
-    if (prevButton) {
-        prevButton.onclick = () => {
-            selectedIndex--;
-            rotateCarousel();
-        };
-    }
-
-    var nextButton = document.querySelector('.next-button');
-    if (nextButton) {
-        nextButton.onclick = () => {
-            selectedIndex++;
-            rotateCarousel();
-        };
-    }
-
-    function changeCarousel() {
-        var cellCount = cells.length;
-        theta = 360 / cellCount;
-
-        var cellSize = isHorizontal ? cellWidth : cellHeight;
-        radius = Math.round((cellSize / 2) / Math.tan(Math.PI / cellCount));
-
-        cells.forEach((cell, i) => {
-            var cellAngle = theta * i;
-
-            cell.style.opacity = 1;
-            cell.style.transform =
-                rotateFn + '(' + cellAngle + 'deg) translateZ(' + radius + 'px)';
-        });
-
-        rotateCarousel();
-    }
-
-    changeCarousel();
 }
 loadGallery();
 });
