@@ -36,6 +36,7 @@ csc468project/
 ├── .github/
 │   └── workflows/
 │       └── publish.yml
+│
 ├── frontend/
 │   ├── Dockerfile
 │   ├── server.js
