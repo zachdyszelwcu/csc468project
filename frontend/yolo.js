@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cameraBtn = document.getElementById("cameraBtn");
     if (cameraBtn) {
         cameraBtn.addEventListener("click", () => {
-            window.location.href = "camera.html";
+            window.location.href = "gallery.html";
         });
     }
 
