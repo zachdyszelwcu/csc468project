@@ -29,6 +29,39 @@ The web client will be containerized using a Node.js base image (node:18-alpine)
 
 Docker will be used for building and running containers during development, and the services will be deployed on a separate CloudLab Nodes to simulate a realistic multi-component cloud environment. The detection API will be exposed over HTTP on port 5002, and the web client will communicate with it using REST requests (POST /detect) by sending image data and recieving processed images in response.
 
+## Overview
+
+## Project Structure
+
+```text
+csc468project/
+├── frontend/
+│   ├── Dockerfile
+│   ├── server.js
+│   ├── yolo.js
+│   ├── index.html
+│   ├── gallery.html
+│   ├── upload.html
+│   ├── style.css
+│   └── package.json
+│
+├── yolov8/
+│   ├── Dockerfile
+│   ├── app.py
+│   ├── requirements.txt
+│   └── yolov8m.pt
+│
+├── docker-compose.yml
+├── docker-compose.images.yml
+├── profile.py
+│
+├── .github/
+│   └── workflows/
+│       └── publish.yml
+│
+└── README.md
+```
+
 ## Getting Started
 
 First you want to start your CloudLab experiment by instantiating from the docker branch. Choose either Clemson or Wisconsin and leave everything else default. Once your experiment had booted up, ssh into your CloudLab node.
