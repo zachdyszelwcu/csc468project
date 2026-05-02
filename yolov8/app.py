@@ -88,8 +88,8 @@ def get_gallery():
 
         files = sorted(files, reverse=True)
 
-        latest = files[0]
-        remaining = files[1:]
+        latest = files[-1]
+        remaining = files[:-1]
         random.shuffle(remaining)
 
         selected = [latest] + remaining[:5]
