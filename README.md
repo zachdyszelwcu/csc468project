@@ -14,8 +14,8 @@ flowchart LR
         C("Backend Container<br>(Flask + YOLOv8)")
   end
     A("Browser<br>(Client)") -- HTTP<br>host:8081 --> B
-    B -- REST API<br>POST /detect --> C
-    C --> n1["Amazon AWS S3"]
+    B -- REST API<br>POST /detect<br>POST /save<br>GET /gallery --> C
+    C -- HTTPS / AWS SDK --> n1["Amazon AWS S3"]
 
     n1@{ shape: rect}
     style B color:#FFFFFF,fill:#424242,stroke:#BBDEFB
