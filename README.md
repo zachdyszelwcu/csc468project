@@ -13,7 +13,7 @@ flowchart LR
         B("Frontend Container<br>(Node.js / Express)")
         C("Backend Container<br>(Flask + YOLOv8)")
   end
-    A("Browser<br>(Client)") -- HTTP<br>localhost:8081 --> B
+    A("Browser<br>(Client)") -- HTTP<br>host:8081 --> B
     B -- REST API<br>POST /detect --> C
     C --> n1["Amazon AWS S3"]
 
