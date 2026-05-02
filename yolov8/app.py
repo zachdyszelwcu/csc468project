@@ -84,19 +84,21 @@ def get_gallery():
         if not contents:
             return {"images": []}
 
-        files = [obj["Key"] for obj in contents]
+        files = sorted(
+            contents,
+            key=lambda obj: obj["LastModified"],
+            reverse=True
+        )
 
-        files = sorted(files, reverse=True)
-
-        latest = files[-1]
-        remaining = files[:-1]
+        latest = files[0]
+        remaining = files[1:]
         random.shuffle(remaining)
 
         selected = [latest] + remaining[:5]
 
         urls = [
-            f"https://{BUCKET_NAME}.s3.amazonaws.com/{name}"
-            for name in selected
+            f"https://{BUCKET_NAME}.s3.amazonaws.com/{obj['Key']}"
+            for obj in selected
         ]
 
         return {"images": urls}
