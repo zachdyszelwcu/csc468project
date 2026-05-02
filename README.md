@@ -29,8 +29,6 @@ The web client will be containerized using a Node.js base image (node:18-alpine)
 
 Docker will be used for building and running containers during development, and the services will be deployed on a separate CloudLab Nodes to simulate a realistic multi-component cloud environment. The detection API will be exposed over HTTP on port 5002, and the web client will communicate with it using REST requests (POST /detect) by sending image data and recieving processed images in response.
 
-## Overview
-
 ## Project Structure
 
 ```text
@@ -61,6 +59,8 @@ csc468project/
 │
 └── README.md
 ```
+
+## Overview
 
 ## Getting Started
 
