@@ -33,6 +33,9 @@ Docker will be used for building and running containers during development, and 
 
 ```text
 csc468project/
+├── .github/
+│   └── workflows/
+│       └── publish.yml
 ├── frontend/
 │   ├── Dockerfile
 │   ├── server.js
@@ -52,11 +55,6 @@ csc468project/
 ├── docker-compose.yml
 ├── docker-compose.images.yml
 ├── profile.py
-│
-├── .github/
-│   └── workflows/
-│       └── publish.yml
-│
 └── README.md
 ```
 
