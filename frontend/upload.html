@@ -19,47 +19,7 @@
     <button id="saveBtn">Save to Gallery</button>
 </div>
 
-<script>
-const BACKEND_URL = `${window.location.protocol}//${window.location.hostname}:5002`;
-
-const img = document.getElementById("preview");
-const stored = localStorage.getItem("uploadedImage");
-const saveBtn = document.getElementById("saveBtn");
-const backBtn = document.getElementById("backBtn");
-
-saveBtn.disabled = true;
-
-if (stored) {
-    img.src = stored;
-    saveBtn.disabled = false;
-}
-
-saveBtn.addEventListener("click", async () => {
-    try {
-        const res = await fetch(`${BACKEND_URL}/save`, {
-            method: "POST"
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-            alert(data.error || "Save failed");
-        } else {
-            alert(data.message);
-        }
-
-    } catch {
-        alert("Server error");
-    }
-});
-
-const backBtn = document.getElementById("backBtn");
-if (backBtn) {
-    backBtn.addEventListener("click", () => {
-        window.location.href = "index.html";
-    });
-}
-</script>
+<script src="yolo.js"></script>
 
 </body>
 </html>
