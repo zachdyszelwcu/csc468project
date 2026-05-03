@@ -53,9 +53,12 @@ saveBtn.addEventListener("click", async () => {
     }
 });
 
-backBtn.addEventListener("click", () => {
-    window.location.href = "index.html";
-});
+const backBtn = document.getElementById("backBtn");
+if (backBtn) {
+    backBtn.addEventListener("click", () => {
+        window.location.href = "index.html";
+    });
+}
 </script>
 
 </body>
