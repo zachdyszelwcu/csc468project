@@ -46,7 +46,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (saveBtn) {
         saveBtn.disabled = true;
+    }
 
+    const previewImg = document.getElementById("preview");
+    const storedImage = localStorage.getItem("uploadedImage");
+
+    if (previewImg && storedImage) {
+        previewImg.src = storedImage;
+
+        if (saveBtn) {
+            saveBtn.disabled = false;
+        }
+    }
+
+    if (saveBtn) {
         saveBtn.addEventListener("click", async () => {
             try {
                 const res = await fetch(`${API_BASE}/save`, {
