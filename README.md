@@ -88,6 +88,8 @@ The stack is split into two main custom services:
 
 The project is fully containerized using Docker and deployed on CloudLab. It also uses GitHub Actions for CI/CD, Docker Hub as the image registry, and a self-hosted GitHub Actions runner on CloudLab for live deployment updates.
 
+---
+
 ## How the Components Communicate
 
 The frontend and backend communicate using REST API requests over HTTP. The frontend serves the user interface on port 8081, but internally the Node/Express server runs on port 3000.
